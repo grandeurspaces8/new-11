@@ -1,44 +1,28 @@
-import { type NextRequest, NextResponse } from "next/server"
-import { Resend } from "resend"
+import { NextResponse } from "next/server"
 
-const resend = new Resend("re_ESgy3bur_6SYTZi5LRfH7CS7ZBubjEQR8")
-
-export async function POST(req: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const body = await req.json()
-    const { name, email, phone, message } = body
+    const body = await request.json()
+    const { name, phone, email, project, unitType } = body
 
-    const { data, error } = await resend.emails.send({
-      from: "Hady - Tatweer Misr Galala <onboarding@resend.dev>",
-      to: "saadh6640@gmail.com",
-      replyTo: email || undefined,
-      subject: `Hady - Tatweer Misr Galala - استفسار جديد من ${name}`,
-      html: `
-        <div dir="rtl" style="font-family: Arial, sans-serif; padding: 20px;">
-          <h2 style="color: #FF4713;">استفسار جديد من الموقع</h2>
-          
-          <div style="background-color: #f5f5f5; padding: 15px; border-radius: 8px; margin: 20px 0;">
-            <p><strong>الاسم:</strong> ${name}</p>
-            <p><strong>رقم الهاتف:</strong> ${phone}</p>
-            ${email ? `<p><strong>البريد الإلكتروني:</strong> ${email}</p>` : ""}
-            ${message ? `<p><strong>الرسالة:</strong></p><p>${message}</p>` : ""}
-          </div>
-          
-          <p style="color: #666; font-size: 12px;">
-            تم الإرسال من موقع تطوير مصر للتطوير العقاري
-          </p>
-        </div>
-      `,
+    const response = await fetch("https://formsubmit.co/ajax/ahany9710@gmail.com", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        name, phone,
+        email: email || "لم يتم تحديده",
+        "المشروع": project || "لم يتم تحديده",
+        "نوع الوحدة": unitType || "لم يتم تحديده",
+        _cc: "Sherifshenawy20@gmail.com,a.abdelraheem6696@gmail.com",
+        _subject: `استفسار جديد - Palm Hills - ${project || ""}`,
+        _captcha: "false",
+        _template: "table",
+      }),
     })
 
-    if (error) {
-      console.error("Resend error:", error)
-      return NextResponse.json({ error: "Failed to send email" }, { status: 500 })
-    }
-
-    return NextResponse.json({ success: true, data })
-  } catch (error) {
-    console.error("API error:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    if (response.ok) return NextResponse.json({ success: true })
+    throw new Error("Failed")
+  } catch {
+    return NextResponse.json({ error: "Failed to send" }, { status: 500 })
   }
 }

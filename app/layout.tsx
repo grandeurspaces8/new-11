@@ -7,22 +7,15 @@ import "./globals.css"
 const cairo = Cairo({ subsets: ["arabic", "latin"] })
 
 export const metadata: Metadata = {
-  title: "IL Monte Galala - المونت جلالة | تطوير مصر",
-  description: "أول أبراج سكنية فندقية فاخرة على البحر الأحمر مباشرة — 22 دور على جبل الجلالة، العين السخنة. بإدارة Marriott International. 5% مقدم وتسليم 2028.",
-  generator: "v0.app",
-  icons: {
-    icon: "/favicon.png",
-  },
+  title: "Palm Hills Developments — Badya | Palm Hills New Cairo | Hacienda",
+  description: "اكتشف مشاريع بالم هيلز الفاخرة: بادية أكتوبر، بالم هيلز التجمع الخامس، وهاسيندا الساحل الشمالي. وحدات سكنية متميزة بأفضل الأسعار والأنظمة.",
+  icons: { icon: "/favicon.png" },
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body className={`${cairo.className} font-sans antialiased`}>
+      <body className={`${cairo.className} antialiased`}>
         {children}
         <Analytics />
       </body>
